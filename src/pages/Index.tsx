@@ -1,11 +1,17 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+
+import SnakeGame from "../components/SnakeGame";
 
 const Index = () => {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
+    <div className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 flex items-center justify-center p-4">
       <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4">Welcome to Your Blank App</h1>
-        <p className="text-xl text-gray-600">Start building your amazing project here!</p>
+        <h1 className="text-6xl font-bold text-white mb-2 tracking-tight">
+          Snake Game
+        </h1>
+        <p className="text-xl text-blue-200 mb-8">
+          Use arrow keys to control the snake. Eat the red food to grow!
+        </p>
+        <SnakeGame />
       </div>
     </div>
   );
