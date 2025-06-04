@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useCallback } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
@@ -107,7 +106,7 @@ const SnakeGame = () => {
   }, [handleKeyPress]);
 
   useEffect(() => {
-    const gameInterval = setInterval(moveSnake, 150);
+    const gameInterval = setInterval(moveSnake, 250);
     return () => clearInterval(gameInterval);
   }, [moveSnake]);
 
