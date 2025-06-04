@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
-import { Play, RotateCcw, ArrowUp, ArrowDown, ArrowLeft, ArrowRight } from 'lucide-react';
+import { RotateCcw, ArrowUp, ArrowDown, ArrowLeft, ArrowRight } from 'lucide-react';
 
 interface Position {
   x: number;
@@ -38,13 +38,13 @@ const SnakeGame = () => {
     setScore(0);
   };
 
-  const startGame = () => {
-    setGameRunning(true);
-    setGameOver(false);
-  };
-
   const changeDirection = useCallback((newDirection: Position) => {
-    if (!gameRunning) return;
+    // Auto-start game if not running and not game over
+    if (!gameRunning && !gameOver) {
+      setGameRunning(true);
+    }
+    
+    if (!gameRunning && !gameOver) return;
     
     // Prevent reversing into self
     if ((direction.x !== 0 && newDirection.x !== 0) || (direction.y !== 0 && newDirection.y !== 0)) {
@@ -52,7 +52,7 @@ const SnakeGame = () => {
     }
     
     setDirection(newDirection);
-  }, [direction, gameRunning]);
+  }, [direction, gameRunning, gameOver]);
 
   const moveSnake = useCallback(() => {
     if (!gameRunning || gameOver) return;
@@ -93,8 +93,6 @@ const SnakeGame = () => {
   }, [direction, food, gameRunning, gameOver, generateFood]);
 
   const handleKeyPress = useCallback((e: KeyboardEvent) => {
-    if (!gameRunning) return;
-
     switch (e.key) {
       case 'ArrowUp':
         changeDirection({ x: 0, y: -1 });
@@ -129,12 +127,6 @@ const SnakeGame = () => {
             Score: {score}
           </div>
           <div className="space-x-2">
-            {!gameRunning && !gameOver && (
-              <Button onClick={startGame} className="bg-green-600 hover:bg-green-700">
-                <Play className="w-4 h-4 mr-2" />
-                Start
-              </Button>
-            )}
             <Button onClick={resetGame} variant="outline" className="border-blue-400 text-blue-400 hover:bg-blue-400 hover:text-white">
               <RotateCcw className="w-4 h-4 mr-2" />
               Reset
@@ -185,7 +177,6 @@ const SnakeGame = () => {
               variant="outline"
               size="icon"
               className="border-blue-400 text-blue-400 hover:bg-blue-400 hover:text-white"
-              disabled={!gameRunning}
             >
               <ArrowUp className="w-4 h-4" />
             </Button>
@@ -195,7 +186,6 @@ const SnakeGame = () => {
               variant="outline"
               size="icon"
               className="border-blue-400 text-blue-400 hover:bg-blue-400 hover:text-white"
-              disabled={!gameRunning}
             >
               <ArrowLeft className="w-4 h-4" />
             </Button>
@@ -205,7 +195,6 @@ const SnakeGame = () => {
               variant="outline"
               size="icon"
               className="border-blue-400 text-blue-400 hover:bg-blue-400 hover:text-white"
-              disabled={!gameRunning}
             >
               <ArrowRight className="w-4 h-4" />
             </Button>
@@ -215,7 +204,6 @@ const SnakeGame = () => {
               variant="outline"
               size="icon"
               className="border-blue-400 text-blue-400 hover:bg-blue-400 hover:text-white"
-              disabled={!gameRunning}
             >
               <ArrowDown className="w-4 h-4" />
             </Button>
@@ -232,7 +220,7 @@ const SnakeGame = () => {
 
         {!gameRunning && !gameOver && (
           <div className="text-center text-blue-200 text-sm animate-fade-in">
-            Press Start to begin playing!
+            Press any arrow key to start playing!
           </div>
         )}
       </div>
