@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
-import { Play, RotateCcw } from 'lucide-react';
+import { Play, RotateCcw, ArrowUp, ArrowDown, ArrowLeft, ArrowRight } from 'lucide-react';
 
 interface Position {
   x: number;
@@ -42,6 +42,17 @@ const SnakeGame = () => {
     setGameRunning(true);
     setGameOver(false);
   };
+
+  const changeDirection = useCallback((newDirection: Position) => {
+    if (!gameRunning) return;
+    
+    // Prevent reversing into self
+    if ((direction.x !== 0 && newDirection.x !== 0) || (direction.y !== 0 && newDirection.y !== 0)) {
+      return;
+    }
+    
+    setDirection(newDirection);
+  }, [direction, gameRunning]);
 
   const moveSnake = useCallback(() => {
     if (!gameRunning || gameOver) return;
@@ -86,19 +97,19 @@ const SnakeGame = () => {
 
     switch (e.key) {
       case 'ArrowUp':
-        if (direction.y === 0) setDirection({ x: 0, y: -1 });
+        changeDirection({ x: 0, y: -1 });
         break;
       case 'ArrowDown':
-        if (direction.y === 0) setDirection({ x: 0, y: 1 });
+        changeDirection({ x: 0, y: 1 });
         break;
       case 'ArrowLeft':
-        if (direction.x === 0) setDirection({ x: -1, y: 0 });
+        changeDirection({ x: -1, y: 0 });
         break;
       case 'ArrowRight':
-        if (direction.x === 0) setDirection({ x: 1, y: 0 });
+        changeDirection({ x: 1, y: 0 });
         break;
     }
-  }, [direction, gameRunning]);
+  }, [changeDirection]);
 
   useEffect(() => {
     document.addEventListener('keydown', handleKeyPress);
@@ -162,6 +173,54 @@ const SnakeGame = () => {
               />
             );
           })}
+        </div>
+
+        {/* On-screen Controls */}
+        <div className="flex flex-col items-center space-y-2">
+          <div className="text-blue-200 text-sm mb-2">Use keyboard arrows or click below:</div>
+          <div className="grid grid-cols-3 gap-2">
+            <div></div>
+            <Button
+              onClick={() => changeDirection({ x: 0, y: -1 })}
+              variant="outline"
+              size="icon"
+              className="border-blue-400 text-blue-400 hover:bg-blue-400 hover:text-white"
+              disabled={!gameRunning}
+            >
+              <ArrowUp className="w-4 h-4" />
+            </Button>
+            <div></div>
+            <Button
+              onClick={() => changeDirection({ x: -1, y: 0 })}
+              variant="outline"
+              size="icon"
+              className="border-blue-400 text-blue-400 hover:bg-blue-400 hover:text-white"
+              disabled={!gameRunning}
+            >
+              <ArrowLeft className="w-4 h-4" />
+            </Button>
+            <div></div>
+            <Button
+              onClick={() => changeDirection({ x: 1, y: 0 })}
+              variant="outline"
+              size="icon"
+              className="border-blue-400 text-blue-400 hover:bg-blue-400 hover:text-white"
+              disabled={!gameRunning}
+            >
+              <ArrowRight className="w-4 h-4" />
+            </Button>
+            <div></div>
+            <Button
+              onClick={() => changeDirection({ x: 0, y: 1 })}
+              variant="outline"
+              size="icon"
+              className="border-blue-400 text-blue-400 hover:bg-blue-400 hover:text-white"
+              disabled={!gameRunning}
+            >
+              <ArrowDown className="w-4 h-4" />
+            </Button>
+            <div></div>
+          </div>
         </div>
 
         {gameOver && (
