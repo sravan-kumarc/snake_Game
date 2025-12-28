@@ -10,15 +10,12 @@ hooks:
     - location: scripts/stop_app.sh
       runas: ec2-user
       timeout: 300
+
   AfterInstall:
     - location: scripts/install_dependencies.sh
       runas: ec2-user
       timeout: 300
+
   ApplicationStart:
     - location: scripts/start_app.sh
       runas: ec2-user
-      timeout: 300
-  ApplicationStop:
-    - location: scripts/stop_app.sh
-      runas: ec2-user
-      timeout: 300
