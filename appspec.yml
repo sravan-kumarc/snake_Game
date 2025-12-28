@@ -1,0 +1,17 @@
+---
+version: 0.0
+os: linux
+files:
+  - source: /
+    destination: /home/ec2-user/snake_game
+
+hooks:
+  BeforeInstall:
+    - location: scripts/stop_app.sh
+      runas: ec2-user
+  ApplicationStart:
+    - location: scripts/start_app.sh
+      runas: ec2-user
+  ApplicationStop:
+    - location: scripts/stop_app.sh
+      runas: ec2-user
