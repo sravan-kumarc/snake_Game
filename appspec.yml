@@ -3,7 +3,7 @@ version: 0.0
 os: linux
 files:
   - source: /
-    destination: /home/ec2-user/snake_game
+    destination: /home/ec2-user/snake_Game
 
 hooks:
   BeforeInstall:
