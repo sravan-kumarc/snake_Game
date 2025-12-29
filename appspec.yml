@@ -19,7 +19,7 @@ permissions:
 hooks:
   BeforeInstall:
     - location: scripts/stop.sh
-      runas: ec2-user
+      runas: root
       timeout: 300
 
   AfterInstall:
